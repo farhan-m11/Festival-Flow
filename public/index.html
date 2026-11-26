@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FestivalFlow — Smart Festival Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">F</div><div><b>FestivalFlow</b><small>SMART EVENT PLANNER</small></div></div>
+    <div class="side-label">WORKSPACE</div>
+    <a class="nav active" href="#overview"><span>◫</span> Overview</a>
+    <a class="nav" href="#builder"><span>＋</span> Plan builder</a>
+    <a class="nav" href="#schedule"><span>☷</span> Schedule</a>
+    <a class="nav" href="#tests"><span>✓</span> Test centre</a>
+    <div class="sidebar-bottom"><div class="status-dot"></div><div><b>Engine online</b><small>C scheduling core</small></div></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><div class="eyebrow">FESTIVAL OPERATIONS / WORKSPACE</div><h1>Festival planning</h1></div><div class="top-actions"><span class="live"><i></i> SYSTEM READY</span><div class="avatar">FF</div></div></header>
+    <section class="welcome">
+      <div><div class="eyebrow light">YOUR FESTIVAL, IN SYNC</div><h2>Make every task<br><em>fall into place.</em></h2><p>Build dependency-aware schedules while keeping every department together.</p><a href="#builder" class="primary-link">Build a schedule <span>↗</span></a></div>
+      <div class="hero-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="hero-center">✦</div><div class="float-card fc-one"><b>01</b><span>Dependencies</span></div><div class="float-card fc-two"><b>02</b><span>Departments</span></div><div class="float-card fc-three"><b>03</b><span>Schedule</span></div></div>
+    </section>
+    <section class="stats">
+      <div class="stat-card"><div class="stat-icon purple">▦</div><div><small>TOTAL TASKS</small><strong id="taskCount">0</strong><span>Across your festival</span></div></div>
+      <div class="stat-card"><div class="stat-icon blue">▤</div><div><small>DEPARTMENTS</small><strong id="deptCount">0</strong><span>Unique task groups</span></div></div>
+      <div class="stat-card"><div class="stat-icon orange">⌁</div><div><small>DEPENDENCIES</small><strong id="depCount">0</strong><span>Prerequisite links</span></div></div>
+      <div class="stat-card"><div class="stat-icon green">◎</div><div><small>SCHEDULE STATUS</small><strong id="statusStat" class="status-text">Draft</strong><span>Live validation</span></div></div>
+    </section>
+    <section class="workspace-grid" id="builder">
+      <div class="panel">
+        <div class="panel-heading"><div><div class="eyebrow">01 / INPUT</div><h3>Plan builder</h3><p>Add tasks and define their department.</p></div><button class="ghost-btn" id="loadExample">Load example ↗</button></div>
+        <form id="taskForm" class="form-row"><label>Task ID<input id="taskId" placeholder="e.g. S1" maxlength="30" required></label><label>Department<input id="department" placeholder="e.g. Sound" maxlength="40" required></label><button class="add-btn" type="submit">＋ Add task</button></form>
+        <div class="list-title"><b>Festival tasks</b><span id="taskTotal">0 tasks</span></div>
+        <div id="taskList" class="task-list empty">No tasks yet. Add your first task above.</div>
+        <div class="section-divider"></div>
+        <div class="subheading"><div><div class="eyebrow">02 / CONSTRAINTS</div><h3>Dependencies</h3><p>What must happen before another task?</p></div></div>
+        <form id="depForm" class="form-row dep-row"><label>Prerequisite<select id="depFrom" required><option value="">Select task</option></select></label><div class="arrow">→</div><label>Dependent task<select id="depTo" required><option value="">Select task</option></select></label><button class="add-btn" type="submit">＋ Link</button></form>
+        <div id="depList" class="dependency-list empty">No dependencies added.</div>
+        <div class="builder-footer"><button class="text-btn" id="clearAll">Clear plan</button><button class="generate-btn" id="generate">Generate schedule <span>→</span></button></div>
+      </div>
+      <div class="panel side-panel">
+        <div class="panel-heading"><div><div class="eyebrow">LIVE STRUCTURE</div><h3>Plan overview</h3><p>Your current planning inputs.</p></div><span class="live-pill">LIVE</span></div>
+        <div class="overview-block"><div class="overview-top"><b>Department groups</b><span id="groupTotal">0 groups</span></div><div id="departmentList" class="department-list"><div class="empty-note">Departments appear here as you add tasks.</div></div></div>
+        <div class="rule-card"><div class="rule-icon">✦</div><div><b>Grouping rule</b><p>Each department must appear as one uninterrupted block in the final schedule.</p></div></div>
+        <div class="rule-card"><div class="rule-icon">↗</div><div><b>Dependency rule</b><p>A prerequisite must always appear before the task that depends on it.</p></div></div>
+        <div class="engine-note"><span class="pulse"></span><div><b>Powered by C graph engine</b><small>Two-level topological sorting</small></div></div>
+      </div>
+    </section>
+    <section class="panel schedule-panel" id="schedule">
+      <div class="panel-heading"><div><div class="eyebrow">03 / OUTPUT</div><h3>Generated schedule</h3><p>Your validated festival task order will appear here.</p></div><span id="resultBadge" class="result-badge neutral">AWAITING INPUT</span></div>
+      <div id="result" class="result-placeholder"><div class="placeholder-icon">⌁</div><b>Your schedule starts here</b><span>Add tasks and dependencies, then generate your plan.</span></div>
+    </section>
+    <section class="panel test-panel" id="tests">
+      <div class="panel-heading"><div><div class="eyebrow">04 / QUALITY CHECK</div><h3>Test centre</h3><p>Try the included demonstration scenarios.</p></div></div>
+      <div class="test-grid">
+        <button class="test-card" data-test="valid"><span class="test-icon">✓</span><b>Valid festival plan</b><small>Cross-department + internal dependencies</small><span class="test-action">Load & run →</span></button>
+        <button class="test-card" data-test="deptcycle"><span class="test-icon warn">↻</span><b>Department conflict</b><small>A department-level dependency cycle</small><span class="test-action">Load & run →</span></button>
+        <button class="test-card" data-test="taskcycle"><span class="test-icon warn">⌁</span><b>Task cycle</b><small>A cycle inside one department</small><span class="test-action">Load & run →</span></button>
+        <button class="test-card" data-test="independent"><span class="test-icon">＋</span><b>Independent departments</b><small>One-task groups and no prerequisites</small><span class="test-action">Load & run →</span></button>
+      </div>
+    </section>
+    <footer>FESTIVALFLOW <span>•</span> Smart scheduling, without the chaos.</footer>
+  </main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body></html>
